@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:todoapp/models/task_model.dart';
 import 'package:todoapp/widgets/default_elevated_button.dart';
 import 'package:todoapp/widgets/default_text_form_field.dart';
 
@@ -97,6 +98,10 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
   }
 
   void addTask() {
-    print('AddTask called');
+    TaskModel task = TaskModel(
+      title: titleController.text,
+      description: descriptionController.text,
+      date: selectedDate,
+    );
   }
 }

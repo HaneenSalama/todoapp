@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:todoapp/app_theme.dart';
+import 'package:todoapp/models/task_model.dart';
 import 'package:todoapp/tabs/tasks/tasks_item.dart';
 
 class TasksTab extends StatelessWidget {
@@ -11,6 +12,16 @@ class TasksTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double screenHight = MediaQuery.sizeOf(context).height;
+
+    List<TaskModel> tasks = List.generate(
+      10,
+      (index) => TaskModel(
+        title: 'Title $index',
+        description: 'Describtion $index',
+        date: DateTime.now(),
+      ),
+    );
+
     return Column(
       children: [
         Stack(
@@ -86,8 +97,8 @@ class TasksTab extends StatelessWidget {
         Expanded(
           child: ListView.builder(
             padding: EdgeInsets.only(top: 20),
-            itemBuilder: (_, index) => TaskItem(),
-            itemCount: 10,
+            itemBuilder: (_, index) => TaskItem(task: tasks[index]),
+            itemCount: tasks.length,
           ),
         ),
       ],
