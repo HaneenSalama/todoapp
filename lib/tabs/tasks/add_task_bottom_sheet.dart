@@ -4,6 +4,8 @@ import 'package:intl/intl.dart';
 import 'package:todoapp/models/task_model.dart';
 import 'package:todoapp/widgets/default_elevated_button.dart';
 import 'package:todoapp/widgets/default_text_form_field.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:todoapp/widgets/firebase_functions.dart';
 
 class AddTaskBottomSheet extends StatefulWidget {
   const AddTaskBottomSheet({super.key});
@@ -102,6 +104,19 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
       title: titleController.text,
       description: descriptionController.text,
       date: selectedDate,
+    );
+    FirebaseFunctions.addTaskToFirestore(task)
+        .timeout(
+      Duration(microseconds: 100),
+    )
+        .then(
+      (_) {
+        Navigator.of(context).pop();
+      },
+    ).catchError(
+      (error) {
+        print(error);
+      },
     );
   }
 }

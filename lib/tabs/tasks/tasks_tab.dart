@@ -5,22 +5,32 @@ import 'package:flutter/widgets.dart';
 import 'package:todoapp/app_theme.dart';
 import 'package:todoapp/models/task_model.dart';
 import 'package:todoapp/tabs/tasks/tasks_item.dart';
+import 'package:todoapp/widgets/firebase_functions.dart';
 
-class TasksTab extends StatelessWidget {
+class TasksTab extends StatefulWidget {
   TasksTab({super.key});
+
+  @override
+  State<TasksTab> createState() => _TasksTabState();
+}
+
+class _TasksTabState extends State<TasksTab> {
+  List<TaskModel> tasks = [];
+  // List.generate(
+  //   10,
+  //   (index) => TaskModel(
+  //     title: 'Title $index',
+  //     description: 'Describtion $index',
+  //     date: DateTime.now(),
+  //   ),
+  // );
 
   @override
   Widget build(BuildContext context) {
     double screenHight = MediaQuery.sizeOf(context).height;
-
-    List<TaskModel> tasks = List.generate(
-      10,
-      (index) => TaskModel(
-        title: 'Title $index',
-        description: 'Describtion $index',
-        date: DateTime.now(),
-      ),
-    );
+    if (tasks.isEmpty) {
+      getTasks();
+    }
 
     return Column(
       children: [
@@ -103,5 +113,9 @@ class TasksTab extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  Future<void> getTasks() async {
+    tasks = await FirebaseFunctions.getAllTasksFromFirestore();
   }
 }
