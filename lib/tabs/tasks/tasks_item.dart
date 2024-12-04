@@ -10,7 +10,6 @@ import 'package:todoapp/widgets/firebase_functions.dart';
 class TaskItem extends StatelessWidget {
   TaskItem({required this.task});
   TaskModel task;
-  //
   @override
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;
