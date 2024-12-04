@@ -43,7 +43,23 @@ class FirebaseFunctions {
 
   static Future<List<TaskModel>> getAllTasksFromFirestore() async {
     CollectionReference<TaskModel> tasksCollection = getTasksCollection();
-    QuerySnapshot<TaskModel> querySnapshot = await tasksCollection.get();
-    return querySnapshot.docs.map((doc) => doc.data()).toList();
+    QuerySnapshot<TaskModel> querySnapshot = await tasksCollection
+        .where(
+          'data',
+          // isEqualTo: Timestamp.fromDate(DateTime.now())
+          //   isGreaterThanOrEqualTo: Timestamp.fromDate(
+          //     DateTime(date.year, date.month, date.day, 0),
+          //   ),
+          //   isLessThanOrEqualTo: Timestamp.fromDate(
+          //     DateTime(date.year, date.month, date.day, 23, 59, 59),
+          //   ),
+        )
+        .get();
+    return querySnapshot.docs.map((docSnapshot) => docSnapshot.data()).toList();
+  }
+
+  static Future<void> DeleteTaskFromFirestore(String taskId) async {
+    CollectionReference<TaskModel> tasksCollection = getTasksCollection();
+    return tasksCollection.doc(taskId).delete();
   }
 }
